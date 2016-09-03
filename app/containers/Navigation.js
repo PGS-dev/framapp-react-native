@@ -5,8 +5,9 @@ import { observer } from 'mobx-react/native';
 import AppStore from '../stores/AppStore';
 import { setProducts } from '../actions/ProductActions';
 import { fetchProducts } from '../services/ProductService';
-import ProductsPage from './ProductsPage'
-;
+import ProductsPage from './ProductsPage';
+import LoginModal from './LoginModal';
+
 const {
   StyleSheet,
   View,
@@ -16,6 +17,14 @@ const {
 } = ReactNative;
 
 class Navigation extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      isModalVisible: false
+    };
+  }
+
   navigateTo(category) {
     AppStore.drawer.close();
     AppStore.products.replace([]);
@@ -27,11 +36,17 @@ class Navigation extends React.Component {
       .then((products) => setProducts(products));
   }
 
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>FramApp</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={() => this.setState({isModalVisible: !this.state.isModalVisible})}>
+              <Text style={styles.buttonText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.navigation}>
           <Text style={styles.navigationHeader}>Categories:</Text>
@@ -45,6 +60,7 @@ class Navigation extends React.Component {
             </TouchableOpacity>
           ))}
         </View>
+        <LoginModal visible={this.state.isModalVisible} />
       </View>
     );
   }
@@ -60,12 +76,14 @@ const styles = StyleSheet.create({
   header: {
     flex: 0.5,
     backgroundColor: 'rgb(0, 188, 212)',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   headerText: {
     color: 'white',
     fontSize: 50,
-    textAlign: 'center'
+    textAlign: 'center',
+    flex: 0.9,
+    lineHeight: 120
   },
   navigationHeader: {
     color: 'white',
@@ -87,6 +105,15 @@ const styles = StyleSheet.create({
     padding: 10
   },
   itemText: {
+    color: 'white'
+  },
+  buttonContainer: {
+    flex: 0.1,
+    alignSelf: 'flex-end',
+    marginRight: 20
+  },
+  buttonText: {
+    textAlign: 'right',
     color: 'white'
   }
 });
