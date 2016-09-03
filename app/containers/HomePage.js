@@ -2,10 +2,11 @@ import React from 'react';
 import ReactNative from 'react-native';
 
 import ProductsList from '../components/ProductsList';
+import Loader from '../components/Loader';
 import { fetchPromotedProducts } from '../services/ProductService';
 
 const {
-  StyleSheet
+  ActivityIndicator
 } = ReactNative;
 
 class HomePage extends React.Component {
@@ -13,14 +14,17 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       products: [],
+      isLoading: true
     };
   }
 
   componentWillMount() {
-    fetchPromotedProducts().then((products) => this.setState({ products }));
+    fetchPromotedProducts().then((products) => this.setState({ products, isLoading: false }));
   }
 
   render() {
+    if (this.state.isLoading) return <Loader />;
+
     return (
       <ProductsList products={this.state.products} />
     );

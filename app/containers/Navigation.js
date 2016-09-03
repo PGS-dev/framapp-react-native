@@ -18,7 +18,8 @@ const {
 class Navigation extends React.Component {
   navigateTo(category) {
     AppStore.drawer.close();
-    AppStore.router.push({
+    AppStore.products.replace([]);
+    AppStore.router.replace({
       component: ProductsPage,
       title: category
     })
