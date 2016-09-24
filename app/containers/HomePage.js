@@ -26,7 +26,7 @@ class HomePage extends React.Component {
     if (this.state.isLoading) return <Loader />;
 
     return (
-      <ProductsList products={this.state.products} />
+      <ProductsList onClickItem={() => {}} products={this.state.products} />
     );
   }
 }
