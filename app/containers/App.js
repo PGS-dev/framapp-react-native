@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import { Subheader } from 'react-native-material-design';
-import SideMenu from 'react-native-side-menu';
 import { observer } from 'mobx-react/native';
 import Drawer from 'react-native-drawer'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from 'firebase';
+
+import { setUser, clearUser } from '../actions/UserActions';
+import { FIREBASE_CONFIG } from '../config';
 
 import HomePage from './HomePage';
 import Navigation from './Navigation';
@@ -18,6 +21,17 @@ const {
   Navigator,
   TouchableHighlight
 } = ReactNative;
+
+
+firebase.initializeApp(FIREBASE_CONFIG);
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    setUser(user);
+  } else {
+    clearUser();
+  }
+});
+
 
 const NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
@@ -117,7 +131,8 @@ const drawerStyles = {
   main: {
     paddingLeft: 3
   },
-}
+};
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',

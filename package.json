@@ -7,10 +7,11 @@
   },
   "dependencies": {
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "firebase": "^3.4.0",
     "mobx": "^2.4.3",
     "mobx-react": "^3.5.5",
     "react": "~15.3.1",
-    "react-native": "0.33.0",
+    "react-native": "0.34.0",
     "react-native-drawer": "^2.2.6",
     "react-native-material-design": "^0.3.7",
     "react-native-side-menu": "^0.20.0",

@@ -3,17 +3,17 @@ import ReactNative from 'react-native';
 import { observer } from 'mobx-react/native';
 
 import AppStore from '../stores/AppStore';
-import { setProducts } from '../actions/ProductActions';
+import {setProducts} from '../actions/ProductActions';
 import { fetchProducts } from '../services/ProductService';
+import { signOut } from '../actions/UserActions';
 import ProductsPage from './ProductsPage';
 import LoginModal from './LoginModal';
+import NavigationHeader from './NavigationHeader';
+import NavigationMenu from './NavigationMenu';
 
 const {
   StyleSheet,
   View,
-  Text,
-  ListView,
-  TouchableOpacity
 } = ReactNative;
 
 class Navigation extends React.Component {
@@ -23,6 +23,8 @@ class Navigation extends React.Component {
     this.state = {
       isModalVisible: false
     };
+
+    this.handleAuthButton = this.handleAuthButton.bind(this);
   }
 
   navigateTo(category) {
@@ -31,36 +33,27 @@ class Navigation extends React.Component {
     AppStore.router.replace({
       component: ProductsPage,
       title: category
-    })
+    });
     fetchProducts(category)
       .then((products) => setProducts(products));
   }
 
-
+  handleAuthButton() {
+    if (AppStore.user.isLoggedIn.get()) {
+      signOut();
+    } else {
+      this.setState({isModalVisible: !this.state.isModalVisible});
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>FramApp</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={() => this.setState({isModalVisible: !this.state.isModalVisible})}>
-              <Text style={styles.buttonText}>Sign In</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.navigation}>
-          <Text style={styles.navigationHeader}>Categories:</Text>
-          {AppStore.categories.map((category) => (
-            <TouchableOpacity
-              key={category.id}
-              style={styles.navigationListItem}
-              onPress={this.navigateTo.bind(this, category.id)}
-            >
-              <Text style={styles.navigationItemText}>{category.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <LoginModal visible={this.state.isModalVisible} />
+        <NavigationHeader onToggleAuth={this.handleAuthButton} />
+        <NavigationMenu onPressItem={this.navigateTo}/>
+        <LoginModal
+          onClose={() => this.setState({isModalVisible: false})}
+          visible={this.state.isModalVisible}
+        />
       </View>
     );
   }
@@ -73,47 +66,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#292929'
   },
-  header: {
-    flex: 0.5,
-    backgroundColor: 'rgb(0, 188, 212)',
-    justifyContent: 'center',
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 50,
-    textAlign: 'center',
-    flex: 0.9,
-    lineHeight: 120
-  },
-  navigationHeader: {
-    color: 'white',
-    fontSize: 20,
-    padding: 10
-  },
-  navigation: {
-    flex: 1
-  },
-  navigationListItem: {
-    paddingLeft: 20,
-    paddingTop: 10,
-    paddingBottom: 10
-  },
-  navigationItemText: {
-    color: 'white'
-  },
+
+
   listItem: {
     padding: 10
   },
   itemText: {
-    color: 'white'
-  },
-  buttonContainer: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    marginRight: 20
-  },
-  buttonText: {
-    textAlign: 'right',
     color: 'white'
   }
 });

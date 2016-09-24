@@ -10,7 +10,7 @@ const {
   TouchableOpacity
 } = ReactNative;
 
-const ModalComp = ({ visible, children, headerText }) => (
+const ModalComp = ({ visible, children, headerText, onClickCancel }) => (
   <Modal
     animationType={"fade"}
     transparent={true}
@@ -20,8 +20,8 @@ const ModalComp = ({ visible, children, headerText }) => (
     <View style={styles.overlay}>
       <View style={styles.modalContainer}>
         <View style={styles.header}>
-          { headerText ? <Text>{headerText}</Text> : null }
-          <TouchableOpacity onPress={() => {}}>
+          { headerText ? <Text style={styles.headerText}>{headerText}</Text> : null }
+          <TouchableOpacity onPress={onClickCancel} style={styles.close}>
             <Icon name="close" size={25} style={styles.closeButton}/>
           </TouchableOpacity>
         </View>
@@ -35,6 +35,7 @@ ModalComp.propTypes = {
   visible: React.PropTypes.bool.isRequired,
   children: React.PropTypes.node,
   headerText: React.PropTypes.string,
+  onClickCancel: React.PropTypes.func.isRequired,
 };
 
 export default ModalComp;
@@ -45,8 +46,16 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginBottom: 10
   },
+  headerText: {
+    flex: 0.9,
+    fontSize: 25
+  },
+  close: {
+    flex: 0.1
+  },
   closeButton: {
-    flex: 1
+    flex: 1,
+    alignSelf: 'flex-end'
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
