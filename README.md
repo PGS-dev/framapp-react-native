@@ -8,13 +8,13 @@ brew install node
 brew install watchman
 npm install -g react-native-cli
 ```
-1. Install deps
+2. Install deps
 
 ```bash
 npm install
 ```
 
-1. Run simulator
+3. Run simulator
 
 ```bash
 react-native run-ios
