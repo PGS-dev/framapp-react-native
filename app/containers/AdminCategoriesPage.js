@@ -14,7 +14,12 @@ const {
 
 const AdminCategoriesPage = () => (
   <View style={styles.container}>
-    <Button onPress={() => {}} text={"Create new category"}/>
+    <Button
+      onPress={() => {}}
+      text={"Create new category"}
+      style={styles.hiddenButton}
+      textStyle={styles.hiddenButtonText}
+    />
     <SwipeList
       data={AppStore.categories.slice()}
       rowComponent={({data}) => (
@@ -25,7 +30,6 @@ const AdminCategoriesPage = () => (
       rightHiddenComponent={({data}) => (
         <View style={styles.rowBack}>
           <Button
-            style={styles.hiddenButton}
             text="Edit"
             textStyle={styles.hiddenButtonText}
             onPress={() => {}}
@@ -44,18 +48,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   hiddenButton: {
-    flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'rgb(0, 188, 212)',
+    margin: 10,
+    borderRadius: 10,
   },
   hiddenButtonText: {
-    textAlign: 'center',
     color: 'white'
   },
   rowFront: {
     flex: 1,
-    height: 50,
+    height: 51,
     backgroundColor: '#f4f3f1',
-    borderBottomWidth: 4,
+    borderBottomWidth: 1,
     borderColor: '#e8e7e3'
   },
   rowBack: {
@@ -69,5 +73,5 @@ const styles = StyleSheet.create({
     lineHeight: 50,
     paddingLeft: 20,
     paddingRight: 20,
-  }
+  },
 });

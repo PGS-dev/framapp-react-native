@@ -7,10 +7,10 @@ const {
   TouchableOpacity
 } = ReactNative;
 
-const Button = ({ onPress, text, backgroundColor, textStyle }) => (
+const Button = ({ onPress, text, textStyle, style }) => (
   <TouchableOpacity
     onPress={onPress}
-    style={[styles.container, { backgroundColor }]}
+    style={[styles.container, style]}
   >
     <Text style={[styles.text, textStyle]}>{text}</Text>
   </TouchableOpacity>
@@ -19,8 +19,16 @@ const Button = ({ onPress, text, backgroundColor, textStyle }) => (
 Button.propTypes = {
   text: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired,
-  backgroundColor: React.PropTypes.string,
-  textStyle: React.PropTypes.number,
+  style: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string,
+    React.PropTypes.object,
+  ]),
+  textStyle: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string,
+    React.PropTypes.object,
+  ]),
 };
 
 export default Button;
@@ -30,6 +38,8 @@ const styles = StyleSheet.create({
     padding: 10
   },
   text: {
-    fontSize: 20
+    fontSize: 20,
+    flex: 1,
+    textAlign: 'center'
   }
 });
