@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactNative from 'react-native';
 import { observer } from 'mobx-react/native';
 
 import ProductsList from '../components/ProductsList';
@@ -7,11 +6,21 @@ import AppStore from '../stores/AppStore';
 import Loader from '../components/Loader';
 import ProductPage from './ProductPage';
 
+import { fetchProducts } from '../services/ProductService';
+
 class ProductsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      products: []
+    };
 
     this.navigateToProduct = this.navigateToProduct.bind(this);
+  }
+
+  componentWillMount() {
+    fetchProducts(this.props.category)
+      .then((products) => this.setState({ products }));
   }
 
   navigateToProduct(product) {
@@ -25,10 +34,10 @@ class ProductsPage extends React.Component {
   }
 
   render() {
-    if (AppStore.products.length === 0) return <Loader />;
+    if (this.state.products.length === 0) return <Loader />;
 
     return (
-      <ProductsList onClickItem={this.navigateToProduct} products={AppStore.products} />
+      <ProductsList onClickItem={this.navigateToProduct} products={this.state.products} />
     );
   }
 }

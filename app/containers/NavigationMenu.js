@@ -3,6 +3,8 @@ import ReactNative from 'react-native';
 import { observer } from 'mobx-react/native';
 
 import AppStore from '../stores/AppStore';
+import ProductsPage from './ProductsPage';
+import AdminCategoriesPage from './AdminCategoriesPage';
 
 const {
   View,
@@ -11,7 +13,15 @@ const {
   StyleSheet,
 } = ReactNative;
 
-const renderAdminPanel = () => {
+const navigateAdmin = (title, component) => {
+  AppStore.drawer.close();
+  AppStore.router.replace({
+    component,
+    title
+  });
+};
+
+const renderAdminPanel = (onPressAdminItem) => {
   if (!AppStore.user.isLoggedIn.get()) return null;
 
   return (
@@ -19,15 +29,13 @@ const renderAdminPanel = () => {
       <Text style={styles.navigationHeader}>Admin Panel:</Text>
       <TouchableOpacity
         style={styles.navigationListItem}
-        onPress={() => {
-        }}
+        onPress={() => navigateAdmin('Categories', AdminCategoriesPage)}
       >
         <Text style={styles.navigationItemText}>Categories</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.navigationListItem}
-        onPress={() => {
-        }}
+        onPress={() => {}}
       >
         <Text style={styles.navigationItemText}>Products</Text>
       </TouchableOpacity>
@@ -35,26 +43,33 @@ const renderAdminPanel = () => {
   );
 };
 
-const NavigationMenu = ({ onPressItem }) => (
+const navigateTo = (category) => {
+  AppStore.drawer.close();
+  AppStore.products.replace([]);
+  AppStore.router.replace({
+    component: ProductsPage,
+    title: category,
+    props: {
+      category
+    }
+  });
+};
+
+const NavigationMenu = ({ onPressItem, onPressAdminItem }) => (
   <View style={styles.navigation}>
     <Text style={styles.navigationHeader}>Categories:</Text>
     {AppStore.categories.map((category) => (
       <TouchableOpacity
         key={category.id}
         style={styles.navigationListItem}
-        onPress={() => onPressItem(category.id)}
+        onPress={() => navigateTo(category.id)}
       >
         <Text style={styles.navigationItemText}>{category.name}</Text>
       </TouchableOpacity>
     ))}
-    {renderAdminPanel()}
+    {renderAdminPanel(onPressAdminItem)}
   </View>
 );
-
-NavigationMenu.propTypes = {
-  onPressItem: React.PropTypes.func.isRequired,
-};
-
 export default observer(NavigationMenu);
 
 const styles = StyleSheet.create({
