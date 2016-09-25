@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import { observer, propTypes } from 'mobx-react/native';
-import { Card, Button } from 'react-native-material-design';
+import { Card } from 'react-native-material-design';
+
+import Button from '../components/Button';
 
 const {
   StyleSheet,

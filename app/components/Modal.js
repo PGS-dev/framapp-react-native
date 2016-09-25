@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end'
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     flex: 1,
     padding: 30
   },

@@ -3,6 +3,7 @@ import ReactNative from 'react-native';
 import { observer } from 'mobx-react/native';
 
 import AppStore from '../stores/AppStore';
+import Button from '../components/Button';
 
 const {
   View,
@@ -15,12 +16,11 @@ const NavigationHeader = ({ onToggleAuth }) => (
   <View style={styles.header}>
     <Text style={styles.headerText}>FramApp</Text>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={styles.button}
+      <Button
+        textStyle={styles.buttonText}
         onPress={onToggleAuth}
-      >
-        <Text style={styles.buttonText}>{AppStore.user.isLoggedIn.get() ? 'Sign Out' : 'Sign In' }</Text>
-      </TouchableOpacity>
+        text={AppStore.user.isLoggedIn.get() ? 'Sign Out' : 'Sign In'}
+      />
     </View>
   </View>
 );

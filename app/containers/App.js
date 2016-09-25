@@ -92,6 +92,7 @@ class App extends React.Component {
         ref={(ref) => AppStore.drawer = ref}
         content={<Navigation />}
         type="overlay"
+        disabled={AppStore.isModalOpened.get()}
         tapToClose={true}
         openDrawerOffset={0.2} // 20% gap on the right side of drawer
         panCloseMask={0.2}

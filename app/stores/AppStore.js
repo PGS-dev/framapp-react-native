@@ -10,6 +10,7 @@ class AppStore {
     this.drawer = null;
     this.router = null;
     this.user = new User();
+    this.isModalOpened = observable(false);
 
     getCategories();
   }

@@ -25,6 +25,7 @@ class Navigation extends React.Component {
     };
 
     this.handleAuthButton = this.handleAuthButton.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   navigateTo(category) {
@@ -42,16 +43,22 @@ class Navigation extends React.Component {
     if (AppStore.user.isLoggedIn.get()) {
       signOut();
     } else {
-      this.setState({isModalVisible: !this.state.isModalVisible});
+      this.toggleModal();
     }
   }
+
+  toggleModal() {
+    AppStore.isModalOpened.set(!AppStore.isModalOpened.get());
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <NavigationHeader onToggleAuth={this.handleAuthButton} />
         <NavigationMenu onPressItem={this.navigateTo}/>
         <LoginModal
-          onClose={() => this.setState({isModalVisible: false})}
+          onClose={this.toggleModal}
           visible={this.state.isModalVisible}
         />
       </View>
